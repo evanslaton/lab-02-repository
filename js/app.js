@@ -74,4 +74,22 @@ const addOptionsToSelect = () => {
 
 $(() => HornedAnimals.readJSON());
 
-// $('select').on('change', PUTAFUNCTIONHERE);
+const getValueOfSelect = () => $('select').val();
+
+const deleteAllClones = () => {
+  $('section:not(:first-child)').remove();
+}
+
+const renderUserSelection = () => {
+  const userSelection = getValueOfSelect();
+  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+    if (hornedAnimals.keyword === userSelection) {
+      hornedAnimals.render();
+    }
+  })
+}
+
+$('select').on('change', () => {
+  deleteAllClones();
+  renderUserSelection();
+});
