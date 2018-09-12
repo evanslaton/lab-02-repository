@@ -23,27 +23,29 @@ HornedAnimals.readJSON = () => {
     .then(HornedAnimals.loadHornedAnimals)
 }
 
+// Loops through allHornedAnimals and calls the render method
 HornedAnimals.loadHornedAnimals = () => {
-  console.log(HornedAnimals.allHornedAnimals);
-  updateTemplate();
+  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => hornedAnimals.render())
 }
 
-HornedAnimals.readJSON();
+// Renders to screen
+HornedAnimals.prototype.render = function() {
+  $('main').append('<section class="clone"></section>');
+  const $hornedAnimalClone = $('section[class="clone"]');
 
-// create jQuery template
-const $template = $('#photo-template').html();
+  // Creates jQuery template
+  const $template = $('#photo-template').html();
 
-// get JSON data, loop through data and add data to template
-const updateTemplate = () => {
-  HornedAnimals.allHornedAnimals.forEach((arrayInstance) => {
-    $template.find('h2').text(arrayInstance.title);
-    $template.find('img').attr('src', arrayInstance.img_url);
-    $template.find('img').attr('alt', arrayInstance.title);
-    $template.find('p').text(arrayInstance.description);
-    render();
-  })
-}
+  // Set HTML of hornedAnimalClone
+  $hornedAnimalClone.html($template);
 
-const render = () => {
-  $('main').append($template);
-}
+  // Adds content to the cloned template
+  $hornedAnimalClone.find('h2').text(this.title);
+  $hornedAnimalClone.find('img').attr('src', this.image_url);
+  $hornedAnimalClone.find('img').attr('alt', this.title);
+  $hornedAnimalClone.find('p').text(this.description);
+  $hornedAnimalClone.removeClass('clone');
+  $hornedAnimalClone.addClass(this.keyword);
+};
+
+$(() => HornedAnimals.readJSON());
