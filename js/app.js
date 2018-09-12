@@ -49,12 +49,10 @@ HornedAnimals.prototype.render = function() {
   $hornedAnimalClone.addClass(this.keyword);
 };
 
-// Add keyword options to select
-function addOptionsToSelect() {
+// Creates an array of unique keywords
+const getUniqueOptions = () => {
   const optionsToBeAdded = [];
   const IS_NOT_IN_ARRAY = -1;
-  console.log(HornedAnimals.allHornedAnimal);
-
 
   HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
     if (optionsToBeAdded.indexOf(hornedAnimals.keyword) === IS_NOT_IN_ARRAY) {
@@ -62,11 +60,18 @@ function addOptionsToSelect() {
     }
   })
 
-  console.log(optionsToBeAdded);
-
-  // $('select').append(`<option value="${this.keyword}"> </option>`)
+  return optionsToBeAdded;
 }
 
+// Add the options to the select element
+const addOptionsToSelect = () => {
+  const optionsToAdd = getUniqueOptions();
+
+  optionsToAdd.forEach((hornedAnimal) => {
+    $('select').append(`<option value="${hornedAnimal}">${hornedAnimal}</option>`);
+  })
+}
 
 $(() => HornedAnimals.readJSON());
 
+// $('select').on('change', PUTAFUNCTIONHERE);
