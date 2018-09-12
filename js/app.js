@@ -21,6 +21,7 @@ HornedAnimals.readJSON = () => {
       })
     }, 'json')
     .then(HornedAnimals.loadHornedAnimals)
+    .then(addOptionsToSelect)
 }
 
 // Loops through allHornedAnimals and calls the render method
@@ -48,4 +49,24 @@ HornedAnimals.prototype.render = function() {
   $hornedAnimalClone.addClass(this.keyword);
 };
 
+// Add keyword options to select
+function addOptionsToSelect() {
+  const optionsToBeAdded = [];
+  const IS_NOT_IN_ARRAY = -1;
+  console.log(HornedAnimals.allHornedAnimal);
+
+
+  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+    if (optionsToBeAdded.indexOf(hornedAnimals.keyword) === IS_NOT_IN_ARRAY) {
+      optionsToBeAdded.push(hornedAnimals.keyword);
+    }
+  })
+
+  console.log(optionsToBeAdded);
+
+  // $('select').append(`<option value="${this.keyword}"> </option>`)
+}
+
+
 $(() => HornedAnimals.readJSON());
+
