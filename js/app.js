@@ -9,7 +9,7 @@ function HornedAnimals(hornedAnimals) {
   this.horns = hornedAnimals.horns;
 }
 
-// Passed JSON data into HornedAnimals
+// Array that holds instances of HornedAnimals
 HornedAnimals.allHornedAnimals = [];
 
 // Gets JSON, passes it through HornedAnimals and pushes new instances into allHornedAnimals array
@@ -25,12 +25,25 @@ HornedAnimals.readJSON = () => {
 
 HornedAnimals.loadHornedAnimals = () => {
   console.log(HornedAnimals.allHornedAnimals);
+  updateTemplate();
 }
 
 HornedAnimals.readJSON();
 
 // create jQuery template
-const $template = $('main').html();
+const $template = $('#photo-template').html();
 
 // get JSON data, loop through data and add data to template
+const updateTemplate = () => {
+  HornedAnimals.allHornedAnimals.forEach((arrayInstance) => {
+    $template.find('h2').text(arrayInstance.title);
+    $template.find('img').attr('src', arrayInstance.img_url);
+    $template.find('img').attr('alt', arrayInstance.title);
+    $template.find('p').text(arrayInstance.description);
+    render();
+  })
+}
 
+const render = () => {
+  $('main').append($template);
+}
