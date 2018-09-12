@@ -1,0 +1,17 @@
+section:first-child {
+  display: none;
+}
+
+section {
+  width: 25%;
+  height: 300px;
+  float: left;
+}
+
+h2, p {
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+}

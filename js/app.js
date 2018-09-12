@@ -21,6 +21,7 @@ HornedAnimals.readJSON = () => {
       })
     }, 'json')
     .then(HornedAnimals.loadHornedAnimals)
+    .then(addOptionsToSelect)
 }
 
 // Loops through allHornedAnimals and calls the render method
@@ -48,4 +49,29 @@ HornedAnimals.prototype.render = function() {
   $hornedAnimalClone.addClass(this.keyword);
 };
 
+// Creates an array of unique keywords
+const getUniqueOptions = () => {
+  const optionsToBeAdded = [];
+  const IS_NOT_IN_ARRAY = -1;
+
+  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+    if (optionsToBeAdded.indexOf(hornedAnimals.keyword) === IS_NOT_IN_ARRAY) {
+      optionsToBeAdded.push(hornedAnimals.keyword);
+    }
+  })
+
+  return optionsToBeAdded;
+}
+
+// Add the options to the select element
+const addOptionsToSelect = () => {
+  const optionsToAdd = getUniqueOptions();
+
+  optionsToAdd.forEach((hornedAnimal) => {
+    $('select').append(`<option value="${hornedAnimal}">${hornedAnimal}</option>`);
+  })
+}
+
 $(() => HornedAnimals.readJSON());
+
+// $('select').on('change', PUTAFUNCTIONHERE);
