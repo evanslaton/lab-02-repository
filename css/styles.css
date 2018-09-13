@@ -13,14 +13,31 @@ h1 {
   font-size: 3em;
 }
 
+main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 5%;
+}
+
 section {
-  width: 25%;
+  width: 23%;
   height: 300px;
-  float: left;
+  margin-bottom: 5%;
+
 }
 
 h2, p {
   width: 100%;
+}
+
+h2 {
+  text-align: center;
+}
+
+section > p {
+  display: none;
 }
 
 img {
