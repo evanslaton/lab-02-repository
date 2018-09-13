@@ -52,13 +52,22 @@ HornedAnimals.prototype.render = function() {
 // Creates an array of unique keywords
 const getUniqueOptions = () => {
   const optionsToBeAdded = [];
+  const userInput = getWhatUserWantsToFilterBy();
   const IS_NOT_IN_ARRAY = -1;
 
-  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
-    if (optionsToBeAdded.indexOf(hornedAnimals.keyword) === IS_NOT_IN_ARRAY) {
-      optionsToBeAdded.push(hornedAnimals.keyword);
-    }
-  })
+  if (userInput === 'title') {
+    HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+      if (optionsToBeAdded.indexOf(hornedAnimals.keyword) === IS_NOT_IN_ARRAY) {
+        optionsToBeAdded.push(hornedAnimals.keyword);
+      }
+    })
+  } else if (userInput === 'number-of-horns') {
+    HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+      if (optionsToBeAdded.indexOf(hornedAnimals.horns) === IS_NOT_IN_ARRAY) {
+        optionsToBeAdded.push(hornedAnimals.horns);
+      }
+    })
+  }
 
   return optionsToBeAdded;
 }
@@ -82,14 +91,35 @@ const deleteAllClones = () => {
 
 const renderUserSelection = () => {
   const userSelection = getValueOfSelect();
-  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
-    if (hornedAnimals.keyword === userSelection) {
-      hornedAnimals.render();
-    }
-  })
+  const userInput = getWhatUserWantsToFilterBy();
+
+  $('option:not(:first-child)').remove();
+  addOptionsToSelect();
+
+  if (userInput === 'title') {
+    HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+      if (hornedAnimals.keyword === userSelection) {
+        hornedAnimals.render();
+      }
+    })
+  } else if (userInput === 'number-of-horns') {
+    HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
+      if (hornedAnimals.horns === parseInt(userSelection)) {
+        hornedAnimals.render();
+      }
+    })
+  }
 }
 
-$('select').on('change', () => {
-  deleteAllClones();
-  renderUserSelection();
-});
+const getWhatUserWantsToFilterBy = () => {
+  const radioButtonValue = $('input[name="filter-by"]:checked').val();
+  return radioButtonValue;
+};
+
+$('#viewing-options').on('change', (event) => {
+  const userInputValue = $(event.target).val();
+  if (userInputValue) {
+    deleteAllClones();
+    renderUserSelection();
+  }
+})
