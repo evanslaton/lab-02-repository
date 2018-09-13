@@ -3,10 +3,6 @@ h1 {
   font-size: 3em;
 }
 
-section:first-child {
-  display: none;
-}
-
 section {
   width: 25%;
   height: 300px;

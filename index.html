@@ -6,6 +6,14 @@
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
     <link href="css/reset.css" type="text/css" rel="stylesheet" />
     <link href="css/styles.css" type="text/css" rel="stylesheet" />
+
+    <script id="horns-template" type="text/x-handlebars-template">
+      <section>
+        <h2>{{title}}</h2>
+        <img src="{{image_url}}" alt="{{title}}">
+        <p>{{description}}</p>
+      </section>
+    </script>
   </head>
 
   <body>
@@ -32,18 +40,13 @@
       </form>
     </header>
 
-    <main>
-      <section id="photo-template">
-        <h2></h2>
-        <img src="" alt="">
-        <p></p>
-      </section>
-    </main>
+    <main></main>
 
     <footer>
       &copy; 2018 Code Fellows
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

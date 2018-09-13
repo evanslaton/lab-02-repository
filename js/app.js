@@ -12,9 +12,15 @@ function HornedAnimals(hornedAnimals) {
 // Array that holds instances of HornedAnimals
 HornedAnimals.allHornedAnimals = [];
 
+// Creates Handlebars template
+HornedAnimals.prototype.render = function() {
+  const $source = $('#horns-template').html();
+  const compileSource = Handlebars.compile($source);
+  return compileSource(this);
+};
+
 // Gets JSON, passes it through HornedAnimals and pushes new instances into allHornedAnimals array
 HornedAnimals.readJSON = (json) => {
-
   $.get(json)
     .then((data) => {
       data.forEach((hornedAnimal) => {
@@ -25,30 +31,10 @@ HornedAnimals.readJSON = (json) => {
     .then(addOptionsToSelect)
 }
 
-// Loops through allHornedAnimals and calls the render method
+// Loops through allHornedAnimals and calls the render method immediately after JSON is loaded
 HornedAnimals.loadHornedAnimals = () => {
-  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => hornedAnimals.render())
+  HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => $('main').append(hornedAnimals.render()));
 }
-
-// Renders to screen
-HornedAnimals.prototype.render = function() {
-  $('main').append('<section class="clone"></section>');
-  const $hornedAnimalClone = $('section[class="clone"]');
-
-  // Creates jQuery template
-  const $template = $('#photo-template').html();
-
-  // Set HTML of hornedAnimalClone
-  $hornedAnimalClone.html($template);
-
-  // Adds content to the cloned template
-  $hornedAnimalClone.find('h2').text(this.title);
-  $hornedAnimalClone.find('img').attr('src', this.image_url);
-  $hornedAnimalClone.find('img').attr('alt', this.title);
-  $hornedAnimalClone.find('p').text(this.description);
-  $hornedAnimalClone.removeClass('clone');
-  $hornedAnimalClone.addClass(this.keyword);
-};
 
 // Creates an array of unique keywords
 const getUniqueOptions = () => {
@@ -73,7 +59,7 @@ const getUniqueOptions = () => {
   return optionsToBeAdded;
 }
 
-// Add the options to the select element
+// Adds the options to the select element
 const addOptionsToSelect = () => {
   const optionsToAdd = getUniqueOptions();
 
@@ -82,16 +68,15 @@ const addOptionsToSelect = () => {
   })
 }
 
+// Loads JSON data on page load
 $(() => HornedAnimals.readJSON('data/page-1.json'));
 
+// Gets the value of the select input
 const getValueOfSelect = () => $('select').val();
 
-
-const deleteAllClones = () => {
-  $('section:not(:first-child)').remove();
-}
-
+// Renders instances
 const renderUserSelection = () => {
+  $('main').html('');
   const userSelection = getValueOfSelect();
   const userInput = getWhatUserWantsToFilterBy();
 
@@ -101,37 +86,38 @@ const renderUserSelection = () => {
   if (userInput === 'title') {
     HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
       if (hornedAnimals.keyword === userSelection) {
-        hornedAnimals.render();
+        $('main').append(hornedAnimals.render());
       }
     })
   } else if (userInput === 'number-of-horns') {
     HornedAnimals.allHornedAnimals.forEach((hornedAnimals) => {
       if (hornedAnimals.horns === parseInt(userSelection)) {
-        hornedAnimals.render();
+        $('main').append(hornedAnimals.render());
       }
     })
   }
 }
 
+// Gets user input from filter-by radio buttons
 const getWhatUserWantsToFilterBy = () => {
   const radioButtonValue = $('input[name="filter-by"]:checked').val();
   return radioButtonValue;
 };
 
+// Event listener for sort by
 $('#viewing-options').on('change', (event) => {
   const userInputValue = $(event.target).val();
   if (userInputValue) {
-    deleteAllClones();
     renderUserSelection();
   }
 })
 
+// Event listener for page options
 $('#page-options').on('change', (event) => {
   const userInputValue = $(event.target).val();
   if (userInputValue) {
-    deleteAllClones();
     HornedAnimals.allHornedAnimals = [];
-    
+
     if (userInputValue === 'page-1') {
       HornedAnimals.readJSON('data/page-1.json');
     } else if (userInputValue === 'page-2') {
