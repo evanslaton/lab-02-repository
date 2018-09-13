@@ -11,16 +11,24 @@
   <body>
     <header>
       <h1>The Gallery of Horns</h1>
-      <form id="viewing-options">
+      <form>
+        <div id="viewing-options">
         <input type="radio" id="show-title" name="filter-by" value="title" checked="checked" />
         <label for="show-title">Title</label>
       
         <input type="radio" id="show-number-of-horns" name="filter-by" value="number-of-horns" />
         <label for="show-number-of-horns">Number of horns</label>
-      
         <select>
           <option value="default">Filter by Keyword</option>
         </select>
+      </div>
+      <div id="page-options">
+        <input type="radio" id="page-1" name="page-by" value="page-1" checked="checked" />
+        <label for="page-1">Page 1</label>
+      
+        <input type="radio" id="page-2" name="page-by" value="page-2" />
+        <label for="page-2">Page 2</label>
+      </div>
       </form>
     </header>
 

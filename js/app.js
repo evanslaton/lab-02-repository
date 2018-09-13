@@ -13,8 +13,9 @@ function HornedAnimals(hornedAnimals) {
 HornedAnimals.allHornedAnimals = [];
 
 // Gets JSON, passes it through HornedAnimals and pushes new instances into allHornedAnimals array
-HornedAnimals.readJSON = () => {
-  $.get('data/page-1.json')
+HornedAnimals.readJSON = (json) => {
+
+  $.get(json)
     .then((data) => {
       data.forEach((hornedAnimal) => {
         HornedAnimals.allHornedAnimals.push(new HornedAnimals(hornedAnimal));
@@ -81,9 +82,10 @@ const addOptionsToSelect = () => {
   })
 }
 
-$(() => HornedAnimals.readJSON());
+$(() => HornedAnimals.readJSON('data/page-1.json'));
 
 const getValueOfSelect = () => $('select').val();
+
 
 const deleteAllClones = () => {
   $('section:not(:first-child)').remove();
@@ -120,6 +122,21 @@ $('#viewing-options').on('change', (event) => {
   const userInputValue = $(event.target).val();
   if (userInputValue) {
     deleteAllClones();
+    renderUserSelection();
+  }
+})
+
+$('#page-options').on('change', (event) => {
+  const userInputValue = $(event.target).val();
+  if (userInputValue) {
+    deleteAllClones();
+    HornedAnimals.allHornedAnimals = [];
+    
+    if (userInputValue === 'page-1') {
+      HornedAnimals.readJSON('data/page-1.json');
+    } else if (userInputValue === 'page-2') {
+      HornedAnimals.readJSON('data/page-2.json');
+    }
     renderUserSelection();
   }
 })
