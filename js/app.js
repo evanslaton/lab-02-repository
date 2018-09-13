@@ -128,16 +128,18 @@ $('#page-options').on('change', (event) => {
 })
 
 $('main').on('click', (event) => {
-  const userInputValue = $(event.target).parent();
-  const image = userInputValue.find($('img')).attr('src');
-  const paragraph = userInputValue.find($('p')).text();
-  $('#detail-view').addClass('detail-view');
-  $('#detail-view').append(`<div id="style-div"></div>`);
-  $('#style-div').append(`<img src="${image}" alt="" />`);
-  $('#style-div').append(`<p>${paragraph}</p>`);
+  if ($(event.target).children().length === 0) {
+    const userInputValue = $(event.target).parent();
+    const image = userInputValue.find($('img')).attr('src');
+    const paragraph = userInputValue.find($('p')).text();
+    $('#detail-view').addClass('detail-view');
+    $('#detail-view').append(`<div id="style-div"></div>`);
+    $('#style-div').append(`<img src="${image}" alt="" />`);
+    $('#style-div').append(`<p>${paragraph}</p>`);
+  }
 })
 
-$('#detail-view').on('click', (event) => {
+$('#detail-view').on('click', () => {
   $('#detail-view').html('');
   $('#detail-view').removeClass();
 })

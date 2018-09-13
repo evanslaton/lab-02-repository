@@ -34,10 +34,15 @@ h2, p {
 
 h2 {
   text-align: center;
+  text-transform: capitalize;
 }
 
 section > p {
   display: none;
+}
+
+option {
+  text-transform: capitalize;
 }
 
 img {
